@@ -7,3 +7,4 @@ tmp
 .idea
 public/app/bower_components
 *~
+mediawiki_oauth.txt
