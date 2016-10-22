@@ -27,6 +27,51 @@ app.get('/', function (req, res, next) {
     res.send('Hello World!');
 });
 
+app.get('/wikidata/w/api.php', function(req, res, next) {
+    console.log(req.url);
+    console.log(req.query);
+    console.log(req.body);
+
+    var wikiServer = "https://test.wikidata.org";
+    var urlParts = req.url.split('/');
+    var url = wikiServer;
+    for (var i = 2; i < urlParts.length; i++) {
+	url += "/" + urlParts[i];
+    }
+
+    request.get({url: url, oauth: oauth}, function(err, httpResponse, body) {
+	console.log(err);
+	//console.log(httpResponse);
+	console.log(body);
+	res.json(JSON.parse(body));
+    });
+});
+
+app.post('/wikidata/w/api.php', function(req, res, next) {
+    console.log(req.url);
+    console.log(req.query);
+    console.log(req.body);
+    var wikiServer = "https://test.wikidata.org";
+    var urlParts = req.url.split('/');
+    var url = wikiServer;
+    for (var i = 2; i < urlParts.length; i++) {
+	url += "/" + urlParts[i];
+    }
+
+    console.log(url);
+    
+    request.post(url, {oauth: oauth, form: {
+	    token: req.body.headers.data.token
+	}
+    }, function(err, httpResponse, body) {
+	console.log(err);
+	//console.log(httpResponse);
+	console.log(body);
+	res.json(JSON.parse(body));
+    });
+});
+
+
 app.get('/wikipedia/w/api.php', function(req, res, next) {
     console.log(req.url);
     console.log(req.query);
@@ -67,6 +112,26 @@ app.post('/wikipedia/w/api.php', function(req, res, next) {
 	console.log(err);
 	//console.log(httpResponse);
 	console.log(body);
+	res.json(JSON.parse(body));
+    });
+});
+
+app.get('/wheelmap/api/nodes', function(req, res, next) {
+    console.log(req.url);
+    console.log(req.query);
+    console.log(req.body);
+
+    var wheelmapServer = "http://wheelmap.org";
+    var urlParts = req.url.split('/');
+    var url = wheelmapServer;
+    for (var i = 2; i < urlParts.length; i++) {
+	url += "/" + urlParts[i];
+    }
+
+    request.get({url: url}, function(err, httpResponse, body) {
+	console.log(err);
+	//console.log(httpResponse);
+	//console.log(body);
 	res.json(JSON.parse(body));
     });
 });
