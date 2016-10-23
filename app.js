@@ -116,11 +116,7 @@ app.post('/wikipedia/w/api.php', function(req, res, next) {
     });
 });
 
-app.get('/wheelmap/api/nodes', function(req, res, next) {
-    console.log(req.url);
-    console.log(req.query);
-    console.log(req.body);
-
+var makeWheelmapRequest = function(req, res, next) {
     var wheelmapServer = "http://wheelmap.org";
     var urlParts = req.url.split('/');
     var url = wheelmapServer;
@@ -134,7 +130,22 @@ app.get('/wheelmap/api/nodes', function(req, res, next) {
 	//console.log(body);
 	res.json(JSON.parse(body));
     });
+}
+
+app.get('/wheelmap/api/node_types', function(req, res, next) {
+    console.log(req.url);
+    console.log(req.query);
+    console.log(req.body);
+    makeWheelmapRequest(req, res, next);
 });
+
+app.get('/wheelmap/api/nodes', function(req, res, next) {
+    console.log(req.url);
+    console.log(req.query);
+    console.log(req.body);
+    makeWheelmapRequest(req, res, next);
+});
+
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');
