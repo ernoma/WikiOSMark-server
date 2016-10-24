@@ -88,7 +88,13 @@ app.get('/wikipedia/w/api.php', function(req, res, next) {
 	console.log(err);
 	//console.log(httpResponse);
 	console.log(body);
-	res.json(JSON.parse(body));
+	var parsed = {};
+	try {
+	    parsed = JSON.parse(body);
+	} catch (e) {
+	    // TODO nothing to do
+	};
+	res.json(parsed);
     });
 });
 
@@ -112,7 +118,13 @@ app.post('/wikipedia/w/api.php', function(req, res, next) {
 	console.log(err);
 	//console.log(httpResponse);
 	console.log(body);
-	res.json(JSON.parse(body));
+	var parsed = {};
+	try {
+	    parsed = JSON.parse(body);
+	} catch (e) {
+	    // TODO nothing to do
+	};
+	res.json(parsed);
     });
 });
 
@@ -128,7 +140,13 @@ var makeWheelmapRequest = function(req, res, next) {
 	console.log(err);
 	//console.log(httpResponse);
 	//console.log(body);
-	res.json(JSON.parse(body));
+	var parsed = {};
+	try {
+	    parsed = JSON.parse(body);
+	} catch (e) {
+	    // TODO nothing to do
+	};
+	res.json(parsed);
     });
 }
 
@@ -145,6 +163,38 @@ app.get('/wheelmap/api/nodes', function(req, res, next) {
     console.log(req.body);
     makeWheelmapRequest(req, res, next);
 });
+
+var makePlatsrRequest = function(req, res, next) {
+    var platsServer = "http://www.platsr.se";
+    var urlParts = req.url.split('/');
+    var url = platsServer;
+    for (var i = 2; i < urlParts.length; i++) {
+	url += "/" + urlParts[i];
+    }
+    //console.log(url);
+    
+    request.get({url: url}, function(err, httpResponse, body) {
+	//console.log(err);
+	//console.log(httpResponse);
+	//console.log(body);
+	var parsed = {};
+	try {
+	    parsed = JSON.parse(body);
+	} catch (e) {
+	    // TODO nothing to do
+	};
+	res.json(parsed);
+    });
+}
+
+app.get('/platsr/api/v1/place*', function(req, res, next) {
+    //console.log(req.url);
+    //console.log(req.query);
+    //console.log(req.body);
+
+    makePlatsrRequest(req, res, next);
+});
+
 
 
 app.listen(3000, function () {
